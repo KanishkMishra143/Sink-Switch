@@ -111,121 +111,6 @@ function Init-Configuration {
         Write-Host "Error: Could not generate the device list from SoundVolumeView.exe."
     }
 }
-
-# function Cycle-AudioDevices {
-#     Write-Host "--- Cycling Audio Devices ---"
-
-#     if (-not (Test-Path $configFile -PathType Leaf)) {
-#         Write-Host "Configuration file not found. Please run 'sink-switch.ps1 init' first."
-#         return
-#     }
-
-#     $configContent = Get-Content -Path $configFile
-#     if (-not $configContent) {
-#         Write-Host "Configuration file is empty. Please run 'sink-switch.ps1 init' first."
-#         return
-#     }
-#     try {
-#         $config = $configContent | ConvertFrom-Json
-#     } catch {
-#         Write-Host "Invalid configuration file. Please run 'sink-switch.ps1 init' first."
-#         return
-#     }
-
-#     $enabledDevices = $config | Where-Object { $_.enabled -eq $true }
-
-#     if (-not $enabledDevices) {
-#         Write-Host "No enabled devices found in configuration. Please enable devices in config.json."
-#         return
-#     }
-
-#     # Get the current default device directly from SoundVolumeView
-#     $tempCsvPath = Join-Path $env:TEMP "current_devices.csv"
-#     Start-Process -FilePath $SoundVolumeViewPath -ArgumentList "/scomma `"$tempCsvPath`"" -Wait -NoNewWindow
-#     $allDevices = Import-Csv -Path $tempCsvPath
-#     $currentDefault = $allDevices | Where-Object { $_.Default -eq 'Render' }
-#     Remove-Item -Path $tempCsvPath
-
-#     $currentIndex = -1
-#     if ($currentDefault) {
-#         $currentIndex = [array]::IndexOf($enabledDevices.id, $currentDefault.'Command-Line Friendly ID')
-#     }
-
-#     # Determine the next index, wrapping around if needed
-#     $nextIndex = ($currentIndex + 1) % $enabledDevices.Count
-#     $nextDevice = $enabledDevices[$nextIndex]
-
-#     # Switch to the next device
-#     $arguments = "/SetDefault `"`"$($nextDevice.id)`"`" all"
-#     Start-Process -FilePath $SoundVolumeViewPath -ArgumentList $arguments -Wait -NoNewWindow
-
-#     # Add a short delay to allow the system to register the change
-#     Start-Sleep -Seconds 1
-
-#     Write-Host "Switched to: $($nextDevice.name) ($($nextDevice.device_name))"
-# }
-# function Cycle-AudioDevices {
-#     Write-Host "--- Cycling Audio Devices ---"
-
-#     if (-not (Test-Path $configFile -PathType Leaf)) {
-#         Write-Host "Configuration file not found. Please run 'sink-switch.ps1 init' first."
-#         return
-#     }
-
-#     $configContent = Get-Content -Path $configFile
-#     if (-not $configContent) {
-#         Write-Host "Configuration file is empty. Please run 'sink-switch.ps1 init' first."
-#         return
-#     }
-#     try {
-#         $config = $configContent | ConvertFrom-Json
-#     } catch {
-#         Write-Host "Invalid configuration file. Please run 'sink-switch.ps1 init' first."
-#         return
-#     }
-
-#     # Validate that config object has 'devices' array and 'lastCycledId' property
-#     if (-not $config.PSObject.Properties.Contains('devices') -or -not ($config.devices -is [array])) {
-#         Write-Host "Configuration file format incorrect. Missing 'devices' array. Please run 'sink-switch.ps1 init' first."
-#         return
-#     }
-#     if (-not $config.PSObject.Properties.Contains('lastCycledId')) {
-#         Write-Host "Configuration file format incorrect. Missing 'lastCycledId' property. Please run 'sink-switch.ps1 init' first."
-#     return
-    
-#     $enabledDevices = $config.devices | Where-Object { $_.enabled -eq $true }
-
-#     if (-not $enabledDevices) {
-#         Write-Host "No enabled devices found in configuration. Please enable devices in config.json."
-#         return
-#     }
-
-#     $lastId = $config.lastCycledId
-#     $lastIndex = [array]::IndexOf($enabledDevices.id, $lastId)
-    
-#     # Determine the next index, wrapping around if needed
-#     # If lastId was not found in enabledDevices (e.g., it was disabled or it's the first run)
-#     # start from the beginning of the enabled list
-#     if ($lastIndex -eq -1) {
-#         $nextIndex = 0
-#     } else {
-#         $nextIndex = ($lastIndex + 1) % $enabledDevices.Count
-#     }
-#     $nextDevice = $enabledDevices[$nextIndex]
-
-#     # Switch to the next device
-#     $arguments = "/SetDefault `"`"$($nextDevice.id)`"`" all"
-#     Start-Process -FilePath $SoundVolumeViewPath -ArgumentList $arguments -Wait -NoNewWindow
-
-#     # Update the lastCycledId in the config object
-#     $config.lastCycledId = $nextDevice.id
-
-#     # Save the entire updated configuration object back to the file
-#     $config | ConvertTo-Json -Depth 5 | Out-File -FilePath $configFile -Encoding UTF8
-
-#     Write-Host "Switched to: $($nextDevice.name) ($($nextDevice.device_name))"
-#     }
-# }
 function Cycle-AudioDevices {
     Write-Host "--- Cycling Audio Devices ---"
     if (-not (Test-Path $configFile -PathType Leaf)) {
@@ -314,9 +199,11 @@ function Set-AudioDevice {
         $arguments = "/SetDefault `"`"$escapedDeviceID`"`" all"
         Start-Process -FilePath $SoundVolumeViewPath -ArgumentList $arguments -Wait -NoNewWindow
 
+        # 1. Update the ID
+        $config.lastCycledId = $selectedDevice.id
         # Save the updated configuration
         $config | ConvertTo-Json -Depth 5 | Out-File -FilePath $configFile -Encoding UTF8
-        Show-Notification -DeviceName $nextDevice.name -SubName $nextDevice.device_name
+        Show-Notification -DeviceName $selectedDevice.name -SubName $selectedDevice.device_name
         "Switched to: $($selectedDevice.name) ($($selectedDevice.device_name))"
     }
     else {
@@ -372,13 +259,42 @@ function Get-CurrentDevice {
         Write-Host "Error: Could not generate the device list from SoundVolumeView.exe."
     }
 }
+# function Show-Notification {
+#     param(
+#         [string]$DeviceName,
+#         [string]$SubName
+#     )
+#     # This creates a toast notification using the BurntToast module.
+#     New-BurntToastNotification -AppLogo (Join-Path $PSScriptRoot "tools\speaker.png") -Text "Switched to: $DeviceName", $SubName -UniqueIdentifier "sink-switch-device"
+# }
+
 function Show-Notification {
     param(
         [string]$DeviceName,
         [string]$SubName
     )
-    # This creates a toast notification using the BurntToast module.
-    New-BurntToastNotification -AppLogo (Join-Path $PSScriptRoot "tools\speaker.png") -Text "Switched to: $DeviceName", $SubName -UniqueIdentifier "sink-switch-device"
+    
+    # Ensure the user's module path is included (standard location)
+    $userModulePath = Join-Path $env:USERPROFILE "Documents\WindowsPowerShell\Modules"
+    if ($env:PSModulePath -notlike "*$userModulePath*") {
+        $env:PSModulePath += ";$userModulePath"
+    }   
+    # Also check the newer PowerShell 7+ / Core path just in case
+    $userModulePathCore = Join-Path $env:USERPROFILE "Documents\PowerShell\Modules"
+    if ($env:PSModulePath -notlike "*$userModulePathCore*") {
+        $env:PSModulePath += ";$userModulePathCore"
+    }
+    # Check if the module is available, if not, try to import it
+    if (-not (Get-Command New-BurntToastNotification -ErrorAction SilentlyContinue)) {
+        Import-Module BurntToast -ErrorAction SilentlyContinue
+    }
+
+    # If it's still not found, we can't show a notification, so we just return (or print a warning)
+    if (Get-Command New-BurntToastNotification -ErrorAction SilentlyContinue) {
+        New-BurntToastNotification -AppLogo (Join-Path $PSScriptRoot "tools\speaker.png") -Text "Switched to: $DeviceName", $SubName -UniqueIdentifier "sink-switch-device"
+    } else {
+        Write-Host "Warning: BurntToast module not found. Notification skipped."
+    }
 }
 
 # --- Main Script Logic ---
