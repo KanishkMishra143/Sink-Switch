@@ -296,6 +296,78 @@ function Show-Notification {
         Write-Host "Warning: BurntToast module not found. Notification skipped."
     }
 }
+function Show-ConfigUI {
+    Add-Type -AssemblyName System.Windows.Forms
+    Add-Type -AssemblyName System.Drawing
+
+    if (-not (Test-Path $configFile)) {
+        Write-Host "Configuration file not found. Run 'init' first."
+        return
+    }
+
+    $config = Get-Content $configFile | ConvertFrom-Json
+    
+    # --- Form Setup ---
+    $form = New-Object Windows.Forms.Form
+    $form.Text = "sink-switch configuration"
+    $form.Size = New-Object Drawing.Size(400, 500)
+    $form.StartPosition = "CenterScreen"
+    $form.FormBorderStyle = "FixedDialog"
+    $form.MaximizeBox = $false
+
+    $label = New-Object Windows.Forms.Label
+    $label.Text = "Select devices to include in the cycle:"
+    $label.Location = New-Object Drawing.Point(10, 10)
+    $label.Size = New-Object Drawing.Size(380, 20)
+    $form.Controls.Add($label)
+
+    # --- Checked List Box ---
+    $clb = New-Object Windows.Forms.CheckedListBox
+    $clb.Location = New-Object Drawing.Point(10, 40)
+    $clb.Size = New-Object Drawing.Size(360, 350)
+    $clb.CheckOnClick = $true
+    
+    # Keep track of the original device objects to map back easily
+    # We will store the unique ID in a hidden list or just rely on index alignment 
+    # (since the order won't change in this dialog).
+    foreach ($dev in $config.devices) {
+        # Create a display string: "Name (Device Name)"
+        $displayName = "$($dev.name) ($($dev.device_name))" 
+        $index = $clb.Items.Add($displayName)
+        if ($dev.enabled) {
+            $clb.SetItemChecked($index, $true)
+        }
+    }
+    $form.Controls.Add($clb)
+    # --- Save Button ---
+    $saveBtn = New-Object Windows.Forms.Button
+    $saveBtn.Text = "Save"
+    $saveBtn.Location = New-Object Drawing.Point(210, 410)
+    $saveBtn.DialogResult = [Windows.Forms.DialogResult]::OK
+    $form.AcceptButton = $saveBtn
+    $form.Controls.Add($saveBtn)
+    # --- Cancel Button ---
+    $cancelBtn = New-Object Windows.Forms.Button
+    $cancelBtn.Text = "Cancel"
+    $cancelBtn.Location = New-Object Drawing.Point(295, 410)
+    $form.Controls.Add($cancelBtn)
+    # --- Execution Logic ---
+    if ($form.ShowDialog() -eq [Windows.Forms.DialogResult]::OK) {
+        for ($i = 0; $i -lt $clb.Items.Count; $i++) {
+            $deviceName = $clb.Items[$i]
+            $isChecked = $clb.GetItemChecked($i)
+            # Find device in config and update enabled status
+            # $configDevice = $config.devices | Where-Object { $_.name -eq $deviceName }
+            if ($i -lt $config.devices.Count) {
+                $config.devices[$i].enabled = $isChecked
+            }
+        }
+        $config | ConvertTo-Json -Depth 5 | Out-File -FilePath $configFile -Encoding UTF8
+        Write-Host "Configuration saved successfully."
+    }
+}
+
+
 
 # --- Main Script Logic ---
 if ($args.Count -ge 1) {
@@ -338,6 +410,12 @@ if ($args.Count -ge 1) {
         }
         "c" {
             Get-CurrentDevice
+        }
+        "ui"{
+            Show-ConfigUI
+        }
+        "gui"{
+            Show-ConfigUI
         }
         # Other commands will be added here later
         default {

@@ -8,68 +8,60 @@ This script allows you to create a curated list of your favorite audio devices a
 
 - **Device Management:**
   - **List:** See all available audio devices with their readable names and command-line IDs.
+  - **Visual Config:** A graphical interface (GUI) to easily check/uncheck devices to include in your cycle.
   - **Initialize:** Automatically generates a configuration file.
 - **User-Controlled Cycling:**
-  - **Enable/Disable:** Manually edit a configuration file to choose which devices are included in your cycle list.
-  - **Predictable Cycle:** Switch in a simple, predictable round-robin order (A -> B -> C -> A).
+  - **Smart Cycling:** Switch in a simple, predictable round-robin order (A -> B -> C -> A).
+  - **State Memory:** Remembers the last cycled device, even if you manually switch devices in between.
 - **Direct Access:** Instantly switch to any audio device by its ID.
-- **Visual Feedback:** Displays a native Windows toast notification (with icon) on every successful switch when run from CLI. For hotkey use, an AutoHotkey `TrayTip` provides feedback.
-- **Global Hotkeys:** Comes with an optional AutoHotkey script to bind cycling and setting commands to any key combination.
-- **Robust:** Handles errors gracefully and is compatible with environments like Git Bash.
+- **Visual Feedback:** Displays a native Windows toast notification (with icon) on every successful switch.
+- **Global Hotkeys:** Comes with an optional AutoHotkey script to bind cycling to `Alt + Mute` (or any custom key).
+- **Automated Installer:** Includes a setup script to handle dependencies and startup shortcuts.
 
 ## Dependencies
 
 1.  **PowerShell:** Included with all modern versions of Windows.
-2.  **[SoundVolumeView.exe](https://www.nirsoft.net/utils/sound_volume_view.html):** A free command-line utility from NirSoft. It must be placed in the `tools` sub-directory.
-3.  **[AutoHotkey](https://www.autohotkey.com/) (Optional):** Required only if you want to use global hotkeys.
-4.  **`BurntToast` PowerShell Module:** Required for toast notifications (CLI use).
+2.  **SoundVolumeView.exe:** Automatically downloaded by the installer.
+3.  **BurntToast PowerShell Module:** Automatically installed by the installer.
+4.  **AutoHotkey (Optional):** Required only for global hotkeys.
 
 ## Installation & Setup
 
-1.  **Install Notification Module:** Open PowerShell **as Administrator** and run the following command:
+1.  **Run the Installer:**
+    Open a PowerShell terminal in the project directory and run the installer. This script will download `SoundVolumeView`, install the notification module, initialize your config, and create a startup shortcut for hotkeys.
     ```powershell
-    Install-Module -Name BurntToast
+    .\install.ps1
     ```
 
-2.  **File Structure:** Create a `tools` folder in the same directory as the script. Place `SoundVolumeView.exe` inside it. You can also place a `speaker.ico` file for the notification icon.
-    ```
-    sink-switch/
-    ├── sink-switch.ps1
-    ├── keybindings.ahk
-    ├── README.md
-    └── tools/
-        ├── SoundVolumeView.exe
-        └── speaker.ico
-    ```
-
-3.  **Initialize Configuration:** Open a PowerShell terminal in the project directory and run the `init` command. This creates the main configuration file in `%APPDATA%\sink-switch\config.json`.
+2.  **Configure Devices:**
+    To choose which devices are included in your toggle cycle, run the UI command:
     ```powershell
-    .\sink-switch.ps1 init
+    .\sink-switch.ps1 ui
     ```
-
-4.  **Enable Your Devices:** Open the configuration file. By default, only your main devices are enabled. To include other devices in your cycle list, change their `"enabled"` property from `false` to `true`.
-    ```powershell
-    notepad "$env:APPDATA\sink-switch\config.json"
-    ```
+    A window will appear allowing you to check or uncheck devices.
 
 ## Usage (Command Line)
 
 All commands can be run from a PowerShell terminal.
 
 - **`list` (alias: `ls`)**: Lists all available audio devices and their IDs.
+- **`ui` (alias: `gui`)**: Opens the graphical configuration window.
 - **`cycle` (alias: `cy`)**: Switches to the next device in your enabled list.
-- **`set <DeviceID>` (alias: `s`)**: Sets a specific audio device as the default.
+- **`set <DeviceID>` (alias: `s`)**: Sets a specific audio device as the default and updates the cycle position.
 - **`current` (alias: `c`)**: Shows the current default playback and recording devices.
+- **`init`**: Re-initializes the configuration file (WARNING: Overwrites existing config).
 
 ## Usage (Global Hotkeys)
 
-To use global hotkeys from anywhere in Windows, ensure `keybindings.ahk` is running.
+If you ran the installer, the hotkey script should start automatically with Windows.
 
-1.  **Run the script:** Double-click `keybindings.ahk`. A green "H" icon appears in your system tray.
-2.  **Use the default hotkey:** Press `Alt + Mute` (`!Volume_Mute::`) to cycle devices.
-3.  **Feedback:** A simple `TrayTip` notification will appear from the system tray, indicating the device change.
-4.  **Customize (Optional):** Edit `keybindings.ahk` to change hotkeys or add specific `set` commands.
+- **Default Hotkey:** Press `Alt + Mute` (`!Volume_Mute`) to cycle devices.
+- **Customize:** Edit `keybindings.ahk` to change the key combination.
+- **Manual Start:** Double-click `keybindings.ahk` to start it manually (look for the green "H" icon in the tray).
 
 ## Future Development
 
-The current PowerShell script is stable and feature-complete. A future version may be rewritten in Go to provide a single, dependency-free executable and interact directly with native Windows APIs like WASAPI for potentially faster performance.
+The current PowerShell version is a fully functional prototype. The next phase of development is a complete rewrite in **Go** to provide:
+- A single, standalone `.exe` with zero dependencies.
+- Native performance using Windows Core Audio APIs.
+- Built-in global hotkey support (removing the need for AutoHotkey).
