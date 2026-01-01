@@ -30,11 +30,17 @@ func RunDashboard() {
 	// Prepare Model
 	model = NewDeviceModel(allDevices, config.Devices, currentID)
 
+	// Try to load icon, but don't crash if missing
+	icon, err := walk.NewIconFromResourceId(1)
+	if err != nil {
+		log.Printf("Warning: Could not load icon from resource: %v", err)
+	}
+
 	// Define Layout
 	if _, err := (MainWindow{
 		AssignTo: &mainWindow,
 		Title:    "Sink Switch Dashboard",
-		Icon:     1, // Use embedded icon (Resource ID 1)
+		Icon:     icon, // Will be nil if failed, which walk handles gracefully (default icon)
 		MinSize:  Size{Width: 400, Height: 500},
 		Layout:   VBox{},
 		Children: []Widget{
