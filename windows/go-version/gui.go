@@ -30,10 +30,14 @@ func RunDashboard() {
 	// Prepare Model
 	model = NewDeviceModel(allDevices, config.Devices, currentID)
 
-	// Try to load icon, but don't crash if missing
-	icon, err := walk.NewIconFromResourceId(1)
+	// Try to load icon from standard resource IDs (rsrc usually uses 7 or 3 when manifest is present)
+	icon, err := walk.NewIconFromResourceId(7)
 	if err != nil {
-		log.Printf("Warning: Could not load icon from resource: %v", err)
+		icon, err = walk.NewIconFromResourceId(3)
+	}
+
+	if err != nil {
+		log.Printf("Warning: Could not load icon from resource ID 7 or 3: %v", err)
 	}
 
 	// Define Layout
