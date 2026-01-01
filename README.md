@@ -2,7 +2,7 @@
 
 A powerful command-line and hotkey-driven utility to quickly switch between your audio playback devices on Windows.
 
-This script allows you to create a curated list of your favorite audio devices and cycle through them with a simple command or a global hotkey, complete with toast notifications.
+This script allows you to create a curated list of your favorite audio devices and cycle through them with a simple command or a global hotkey, complete with rich toast notifications.
 
 ## Features
 
@@ -14,9 +14,9 @@ This script allows you to create a curated list of your favorite audio devices a
   - **Smart Cycling:** Switch in a simple, predictable round-robin order (A -> B -> C -> A).
   - **State Memory:** Remembers the last cycled device, even if you manually switch devices in between.
 - **Direct Access:** Instantly switch to any audio device by its ID.
-- **Visual Feedback:** Displays a native Windows toast notification (with icon) on every successful switch.
-- **Global Hotkeys:** Comes with an optional AutoHotkey script to bind cycling to `Alt + Mute` (or any custom key).
-- **Automated Installer:** Includes a setup script to handle dependencies and startup shortcuts.
+- **Visual Feedback:** Displays a native Windows toast notification (with icon) on every successful switch, whether triggered via CLI or Hotkey.
+- **Global Hotkeys:** Comes with an optimized AutoHotkey script to bind cycling to `Alt + Mute` (customizable).
+- **Automated Installer:** Includes a setup script to handle dependencies, download tools, and create startup shortcuts.
 
 ## Dependencies
 
@@ -53,11 +53,11 @@ All commands can be run from a PowerShell terminal.
 
 ## Usage (Global Hotkeys)
 
-If you ran the installer, the hotkey script should start automatically with Windows.
+If you ran the installer, the hotkey script (`keybindings.ahk`) is already set to start with Windows.
 
 - **Default Hotkey:** Press `Alt + Mute` (`!Volume_Mute`) to cycle devices.
-- **Customize:** Edit `keybindings.ahk` to change the key combination.
-- **Manual Start:** Double-click `keybindings.ahk` to start it manually (look for the green "H" icon in the tray).
+- **Feedback:** You will see a Windows Toast notification showing the newly selected device.
+- **Customize:** You can edit `keybindings.ahk` to change the key combination if desired, then reload the script.
 
 ## Future Development
 
