@@ -10,6 +10,7 @@ import (
 	"strings"
 	"syscall"
 	"unsafe"
+	"runtime"
 
 	"github.com/go-ole/go-ole"
 	"github.com/moutend/go-wca/pkg/wca"
@@ -41,6 +42,9 @@ type AudioDevice struct {
 }
 
 func main() {
+
+	runtime.LockOSThread() 
+	
 	// 1. Parse Flags
 	cycleMode := flag.Bool("cycle", false, "Cycle through configured devices (CLI mode)")
 	listMode := flag.Bool("list", false, "List all available audio devices and exit")
@@ -266,6 +270,8 @@ type IPolicyConfig struct {
 }
 
 func setDefaultDevice(deviceID string) error {
+	runtime.LockOSThread()
+	defer runtime.UnlockOSThread()
 	ole.CoInitializeEx(0, ole.COINIT_APARTMENTTHREADED)
 	defer ole.CoUninitialize()
 
@@ -301,6 +307,8 @@ func setDefaultDevice(deviceID string) error {
 }
 
 func getDefaultDeviceID() (string, error) {
+	runtime.LockOSThread()
+	defer runtime.UnlockOSThread()	
 	ole.CoInitializeEx(0, ole.COINIT_APARTMENTTHREADED)
 	defer ole.CoUninitialize()
 
@@ -324,8 +332,11 @@ func getDefaultDeviceID() (string, error) {
 }
 
 func getAudioDevices() ([]AudioDevice, error) {
+	runtime.LockOSThread()
+	defer runtime.UnlockOSThread()
 	ole.CoInitializeEx(0, ole.COINIT_APARTMENTTHREADED)
 	defer ole.CoUninitialize()
+
 
 	var de *wca.IMMDeviceEnumerator
 	if err := wca.CoCreateInstance(wca.CLSID_MMDeviceEnumerator, 0, wca.CLSCTX_ALL, wca.IID_IMMDeviceEnumerator, &de); err != nil {
