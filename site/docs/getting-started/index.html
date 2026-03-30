@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - Sink-Switch Docs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../docs-style.css">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            if (theme === 'dark') document.documentElement.classList.add('dark-theme');
+        })();
+    </script>
+</head>
+<body class="docs-body">
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="../../index.html" class="logo">
+                    <img src="../../assets/logo.svg" alt="Sink-Switch Logo" class="logo-img">
+                    <span class="logo-text">Docs</span>
+                </a>
+            </div>
+            
+            <div class="docs-search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="docs-search-input" id="docs-search" placeholder="Search docs (Press / to focus)">
+            </div>
+
+            <nav class="desktop-nav">
+                <a href="../../index.html">Home</a>
+                <a href="https://github.com/kanishkmishra/Sink-Switch" class="btn btn-secondary">GitHub</a>
+            </nav>
+            <button id="theme-toggle" aria-label="Toggle Theme">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="search-modal" class="search-modal">
+        <div class="search-modal-content">
+            <div class="search-results-list" id="search-results">
+                <!-- Results populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <div class="docs-container">
+        <aside class="docs-sidebar">
+            <nav class="sidebar-nav">
+                <h4>Introduction</h4>
+                <ul>
+                    <li><a href="index.html" class="active">Getting Started</a></li>
+                </ul>
+                <h4>Installation</h4>
+                <ul>
+                    <li><a href="../installation/index.html">Linux Install</a></li>
+                    <li><a href="../installation/windows.html">Windows Install</a></li>
+                </ul>
+                <h4>Usage</h4>
+                <ul>
+                    <li><a href="../usage/index.html">CLI Commands</a></li>
+                    <li><a href="../usage/dashboard.html">Using Dashboard</a></li>
+                </ul>
+                <h4>Customization</h4>
+                <ul>
+                    <li><a href="../configuration/index.html">Configuration</a></li>
+                    <li><a href="../configuration/hotkeys.html">Setting Hotkeys</a></li>
+                </ul>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="../faq/index.html">FAQ</a></li>
+                    <li><a href="https://github.com/kanishkmishra/Sink-Switch/blob/master/LICENSE">License</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <span class="badge">Introduction</span>
+            <h1>Getting Started</h1>
+            <p>Sink-Switch is designed to make your Linux desktop experience smoother by removing the friction of manual audio device switching.</p>
+
+            <h2 id="what-is-sink-switch">What is Sink-Switch?</h2>
+            <p>It is a lightweight utility that allows you to swap your default audio output (sink) between your favorite devices instantly. Whether you use PulseAudio or PipeWire, Sink-Switch has you covered.</p>
+
+            <h2 id="core-workflow">Core Workflow</h2>
+            <p>The philosophy of Sink-Switch is "Muscle Memory". Instead of reaching for your mouse, you'll soon be reaching for your keyboard shortcuts.</p>
+            <ol>
+                <li>Define your "primary" and "secondary" devices.</li>
+                <li>Trigger the switch via terminal or hotkey.</li>
+                <li>Sink-Switch moves all currently playing streams to the new device automatically.</li>
+            </ol>
+
+            <h2 id="quick-install">Quick Install</h2>
+            <p>To get started on Linux, you can run our one-liner install script:</p>
+            <pre><code>curl -sSL https://raw.githubusercontent.com/kanishkmishra/Sink-Switch/master/linux/install.sh | bash</code></pre>
+            <p>For more detailed instructions, head over to the <a href="../installation/index.html">Installation Guide</a>.</p>
+
+            <h2 id="first-switch">First Successful Switch</h2>
+            <p>Once installed, try running the command manually in your terminal:</p>
+            <pre><code>sink-switch next</code></pre>
+            <p>You should see a notification (if you have a notification daemon) and your audio should jump to the next available device.</p>
+        </main>
+
+        <aside class="docs-navigator">
+            <div class="navigator-title">On This Page</div>
+            <ul class="navigator-list" id="navigator-list">
+                <!-- Populated by JS -->
+            </ul>
+        </aside>
+    </div>
+
+    <script src="../../script.js"></script>
+    <script src="../docs-script.js"></script>
+</body>
+</html>

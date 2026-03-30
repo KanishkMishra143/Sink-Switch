@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting Hotkeys - Sink-Switch Docs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../docs-style.css">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            if (theme === 'dark') document.documentElement.classList.add('dark-theme');
+        })();
+    </script>
+</head>
+<body class="docs-body">
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="../../index.html" class="logo">
+                    <img src="../../assets/logo.svg" alt="Sink-Switch Logo" class="logo-img">
+                    <span class="logo-text">Docs</span>
+                </a>
+            </div>
+            <div class="docs-search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="docs-search-input" id="docs-search" placeholder="Search docs (Press / to focus)">
+            </div>
+            <nav class="desktop-nav">
+                <a href="../../index.html">Home</a>
+                <a href="https://github.com/kanishkmishra/Sink-Switch" class="btn btn-secondary">GitHub</a>
+            </nav>
+            <button id="theme-toggle" aria-label="Toggle Theme">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="search-modal" class="search-modal">
+        <div class="search-modal-content">
+            <div class="search-results-list" id="search-results"></div>
+        </div>
+    </div>
+
+    <div class="docs-container">
+        <aside class="docs-sidebar">
+            <nav class="sidebar-nav">
+                <h4>Introduction</h4>
+                <ul>
+                    <li><a href="../getting-started/index.html">Getting Started</a></li>
+                </ul>
+                <h4>Installation</h4>
+                <ul>
+                    <li><a href="../installation/index.html">Linux Install</a></li>
+                    <li><a href="../installation/windows.html">Windows Install</a></li>
+                </ul>
+                <h4>Usage</h4>
+                <ul>
+                    <li><a href="../usage/index.html">CLI Commands</a></li>
+                    <li><a href="../usage/dashboard.html">Using Dashboard</a></li>
+                </ul>
+                <h4>Customization</h4>
+                <ul>
+                    <li><a href="index.html">Configuration</a></li>
+                    <li><a href="hotkeys.html" class="active">Setting Hotkeys</a></li>
+                </ul>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="../faq/index.html">FAQ</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <span class="badge">Customization</span>
+            <h1>Setting Hotkeys</h1>
+            <p>Hotkeys turn Sink-Switch into a power-user tool. This guide helps you map keys on different environments.</p>
+
+            <h2 id="linux-gnome">Linux (GNOME)</h2>
+            <ol>
+                <li>Open <strong>Settings</strong> > <strong>Keyboard</strong>.</li>
+                <li>Click <strong>View and Customize Shortcuts</strong> > <strong>Custom Shortcuts</strong>.</li>
+                <li>Add a new shortcut:
+                    <ul>
+                        <li><strong>Name:</strong> Sink-Switch Next</li>
+                        <li><strong>Command:</strong> <code>sink-switch next</code></li>
+                        <li><strong>Shortcut:</strong> e.g., <code>Super + Alt + S</code></li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h2 id="linux-kde">Linux (KDE Plasma)</h2>
+            <ol>
+                <li>Open <strong>System Settings</strong> > <strong>Shortcuts</strong> > <strong>Custom Shortcuts</strong>.</li>
+                <li>Right-click > <strong>New</strong> > <strong>Global Shortcut</strong> > <strong>Command/URL</strong>.</li>
+                <li>Under <strong>Action</strong>, enter: <code>sink-switch next</code>.</li>
+            </ol>
+
+            <h2 id="windows-ahk">Windows (AutoHotkey)</h2>
+            <p>The easiest way to set hotkeys on Windows is via AutoHotkey. Create a script or edit the provided one:</p>
+            <pre><code>; Example AHK script
+^!s::Run("sink-switch.exe next",, "Hide") ; Ctrl + Alt + S</code></pre>
+            <p>The Go version also includes a <strong>Shortcut Manager</strong> within the Dashboard settings for non-AHK users.</p>
+        </main>
+
+        <aside class="docs-navigator">
+            <div class="navigator-title">On This Page</div>
+            <ul class="navigator-list" id="navigator-list"></ul>
+        </aside>
+    </div>
+
+    <script src="../../script.js"></script>
+    <script src="../docs-script.js"></script>
+</body>
+</html>

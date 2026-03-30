@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sink-Switch | Instant Audio Switching</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            if (theme === 'dark') document.documentElement.classList.add('dark-theme');
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <img src="assets/logo.svg" alt="Sink-Switch Logo" class="logo-img">
+                <span class="logo-text">Sink-Switch</span>
+            </div>
+            <nav class="desktop-nav">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="docs/getting-started/index.html">Docs</a>
+                <a href="https://github.com/kanishkmishra/Sink-Switch" class="btn btn-secondary">GitHub</a>
+            </nav>
+            <button id="theme-toggle" aria-label="Toggle Theme">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <button id="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero section-spacing">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-headline">Switch audio <span class="accent-text">instantly</span></h1>
+                    <p class="hero-subheadline">The fastest way to switch audio output on Linux. Use hotkeys or a clean dashboard to swap between speakers and headphones in a heartbeat.</p>
+                    <div class="hero-ctas">
+                        <a href="#how-it-works" class="btn btn-primary">Get Started</a>
+                        <a href="https://github.com/kanishkmishra/Sink-Switch" class="btn btn-outline">View on GitHub</a>
+                    </div>
+                </div>
+                <div class="hero-visual halo-effect">
+                    <img src="assets/sink_switch_gui.png" alt="Sink-Switch Dashboard" class="hero-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section class="problem section-spacing bg-low">
+            <div class="container">
+                <div class="section-header center">
+                    <span class="badge">The Pain</span>
+                    <h2>Tired of clicking through menus?</h2>
+                    <p>Switching audio output on Linux is usually slow, annoying, and takes too many clicks.</p>
+                </div>
+                <div class="problem-grid">
+                    <div class="problem-card">
+                        <div class="icon">🖱️</div>
+                        <h3>Too many clicks</h3>
+                        <p>Open settings, find sound, pick output... every single time.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="icon">🐢</div>
+                        <h3>Slow switching</h3>
+                        <p>Waiting for the system to react while your music is playing out loud.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section id="features" class="features section-spacing">
+            <div class="container">
+                <div class="section-header">
+                    <span class="badge">Features</span>
+                    <h2>Built for speed</h2>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card accent-primary">
+                        <h3>Instant switching</h3>
+                        <p>Switch your audio sink in milliseconds without opening settings.</p>
+                    </div>
+                    <div class="feature-card accent-secondary">
+                        <h3>Dashboard UI</h3>
+                        <p>A minimal, clean interface to manage all your audio devices at once.</p>
+                    </div>
+                    <div class="feature-card accent-tertiary">
+                        <h3>Smart Memory</h3>
+                        <p>Sink-Switch remembers your preferred volume for each device.</p>
+                    </div>
+                    <div class="feature-card accent-primary">
+                        <h3>Global Hotkeys</h3>
+                        <p>Set custom keybindings to switch outputs from anywhere.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section id="how-it-works" class="how-it-works section-spacing bg-low">
+            <div class="container">
+                <div class="section-header center">
+                    <span class="badge">Workflow</span>
+                    <h2>Three steps to freedom</h2>
+                </div>
+                <div class="steps-grid">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <h3>Install</h3>
+                        <p>Grab the script or binary and put it in your path.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <h3>Set Hotkeys</h3>
+                        <p>Map your favorite keys to trigger the switch logic.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <h3>Switch Instantly</h3>
+                        <p>Tap your keys and watch the audio jump between devices.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screenshots / Demo -->
+        <section class="screenshots section-spacing">
+            <div class="container">
+                <div class="section-header">
+                    <span class="badge">Gallery</span>
+                    <h2>See it in action</h2>
+                </div>
+                <div class="screenshots-grid">
+                    <div class="screenshot-item halo-effect">
+                        <img src="assets/linux_version_sink_switch.png" alt="Linux Dashboard UI">
+                        <p class="caption">Dashboard view on Linux</p>
+                    </div>
+                    <div class="screenshot-item halo-effect">
+                        <img src="assets/sink_switch_configuration.png" alt="Configuration UI">
+                        <p class="caption">Easy device configuration</p>
+                    </div>
+                    <div class="screenshot-item halo-effect">
+                        <img src="assets/go_version.png" alt="Windows Go Version">
+                        <p class="caption">Native Windows GUI (Go Version)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="experience section-spacing bg-low">
+            <div class="container">
+                <div class="experience-content center">
+                    <h2>It just feels right</h2>
+                    <p>Once you start using hotkeys to switch your audio, you'll wonder how you ever lived without them. It becomes muscle memory.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Light Tech Section -->
+        <section class="tech section-spacing">
+            <div class="container">
+                <div class="tech-grid">
+                    <div class="tech-info">
+                        <span class="badge">Under the hood</span>
+                        <h2>Lightweight & Powerful</h2>
+                        <p>Built using shell scripts and Go for maximum performance. It interacts directly with PulseAudio, PipeWire, and Windows Core Audio APIs.</p>
+                        <ul class="tech-list">
+                            <li>Linux & Windows Support</li>
+                            <li>PulseAudio / PipeWire Integration</li>
+                            <li>Automation Ready</li>
+                        </ul>
+                    </div>
+                    <div class="tech-visual">
+                        <img src="assets/linux_version_sink_switch.png" alt="Code Screenshot" class="code-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Docs Preview Section -->
+        <section class="docs-preview section-spacing bg-low">
+            <div class="container">
+                <div class="section-header center">
+                    <h2>Everything you need to know</h2>
+                    <p>Check out our comprehensive documentation to get the most out of Sink-Switch.</p>
+                </div>
+                <div class="docs-grid">
+                    <a href="docs/installation/index.html" class="docs-card">
+                        <h3>Installation</h3>
+                        <p>How to set up Sink-Switch on your system.</p>
+                    </a>
+                    <a href="docs/usage/index.html" class="docs-card">
+                        <h3>Usage</h3>
+                        <p>Commands, flags, and dashboard basics.</p>
+                    </a>
+                    <a href="docs/configuration/index.html" class="docs-card">
+                        <h3>Configuration</h3>
+                        <p>Customizing device names and hotkeys.</p>
+                    </a>
+                    <a href="docs/faq/index.html" class="docs-card">
+                        <h3>FAQ</h3>
+                        <p>Common questions and troubleshooting.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Creator Section -->
+        <section class="creator section-spacing">
+            <div class="container">
+                <div class="creator-card">
+                    <div class="creator-image">
+                        <img src="assets/profile.png" alt="Kanishk Mishra">
+                    </div>
+                    <div class="creator-info">
+                        <span class="badge">Creator</span>
+                        <h2>Kanishk Mishra</h2>
+                        <p>"Built by a Linux user, for Linux users. I made this because I was tired of the small frictions in my daily workflow."</p>
+                        <div class="social-links">
+                            <a href="https://github.com/kanishkmishra">GitHub</a>
+                            <a href="https://linkedin.com/in/kanishk-mishra">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="final-cta section-spacing bg-primary">
+            <div class="container center">
+                <h2 class="text-white">Ready to switch faster?</h2>
+                <p class="text-white-muted">Join the developers and power users who have optimized their Linux audio setup.</p>
+                <div class="hero-ctas">
+                    <a href="https://github.com/kanishkmishra/Sink-Switch" class="btn btn-white">Get it on GitHub</a>
+                    <a href="docs/getting-started/index.html" class="btn btn-white-outline">Read the Docs</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <img src="assets/logo.svg" alt="Sink-Switch Logo" class="logo-img">
+                        <span class="logo-text">Sink-Switch</span>
+                    </div>
+                    <p>Instant audio switching for power users.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#how-it-works">Workflow</a>
+                        <a href="https://github.com/kanishkmishra/Sink-Switch">Releases</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Resources</h4>
+                        <a href="docs/getting-started/index.html">Docs</a>
+                        <a href="https://github.com/kanishkmishra/Sink-Switch/issues">Support</a>
+                        <a href="LICENSE">License</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Sink-Switch. MIT License.</p>
+                <p>Built with ❤️ by Kanishk Mishra</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
