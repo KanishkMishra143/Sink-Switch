@@ -1,6 +1,6 @@
-# NotionSafe Design System: "The Tonal Vault"
+# Sink-Switch Design System: "The Tonal Vault"
 
-This document defines the professional yet colorful design system used for NotionSafe. It combines architectural precision with Material 3 (M3) inspiration to create an interface that feels secure, modern, and vibrant.
+This document defines the professional yet colorful design system used for Sink-Switch. It combines architectural precision with Material 3 (M3) inspiration to create an interface that feels secure, modern, and vibrant.
 
 ---
 

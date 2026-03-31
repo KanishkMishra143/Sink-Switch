@@ -1,6 +1,6 @@
 # Instructions for Replicating "The Digital Vault" Design System
 
-This document provides the exhaustive technical and design blueprint for replicating the high-end, editorial landing page and multi-page wiki created for **NotionSafe**. 
+This document provides the exhaustive technical and design blueprint for replicating the high-end, editorial landing page and multi-page wiki created for **Sink-Switch**. 
 
 ---
 
@@ -101,7 +101,7 @@ Instead of a simple sidebar filter, implement a **Global Indexing Search**:
 }
 ```
 
-*By following these instructions, any AI agent can replicate the specific high-fidelity look and performance-optimized behavior of the NotionSafe site.*
+*By following these instructions, any AI agent can replicate the specific high-fidelity look and performance-optimized behavior of the Sink-Switch site.*
 
 ---
 
