@@ -89,14 +89,21 @@
             <pre><code>curl -sSL https://raw.githubusercontent.com/kanishkmishra/Sink-Switch/master/linux/install.sh | bash</code></pre>
 
             <h2 id="manual-install">Manual Installation</h2>
-            <p>1. Download the `sink-switch.sh` script from the `linux/` directory.</p>
-            <p>2. Make it executable:</p>
-            <pre><code>chmod +x sink-switch.sh</code></pre>
-            <p>3. Move it to your bin directory:</p>
-            <pre><code>sudo mv sink-switch.sh /usr/local/bin/sink-switch</code></pre>
+            <p>1. Download the `sink-switch.sh` and `sink-switch-gui.py` scripts from the `linux/` directory.</p>
+            <p>2. Make them executable:</p>
+            <pre><code>chmod +x sink-switch.sh sink-switch-gui.py</code></pre>
+            <p>3. Move them to your bin directory:</p>
+            <pre><code>sudo mv sink-switch.sh /usr/local/bin/sink-switch
+sudo mv sink-switch-gui.py /usr/local/bin/sink-switch-gui.py</code></pre>
 
             <h2 id="dependencies">Dependencies</h2>
-            <p>Ensure you have `pactl` (PulseAudio Control) installed. Most distros have this by default.</p>
+            <p>Ensure you have `pactl` (PulseAudio Control) and `libnotify` installed. For the Dashboard GUI, you also need:</p>
+            <ul>
+                <li>Python 3</li>
+                <li>GTK 4</li>
+                <li>Libadwaita</li>
+                <li>PyGObject (python3-gobject)</li>
+            </ul>
         </main>
 
         <aside class="docs-navigator">

@@ -79,21 +79,21 @@
         <main class="docs-content">
             <span class="badge">Usage</span>
             <h1>CLI Commands</h1>
-            <p>On Linux, Sink-Switch is primarily used through the terminal or mapped to hotkeys using these commands.</p>
+            <p>On Linux, Sink-Switch is primarily used through the terminal or mapped to hotkeys using these flags.</p>
 
-            <h2 id="core-commands">Core Commands</h2>
+            <h2 id="core-commands">Core Flags</h2>
             
-            <h3 id="next">sink-switch next</h3>
-            <p>Switches to the next available audio output device in the loop.</p>
-            <pre><code>sink-switch next</code></pre>
+            <h3 id="next">--next</h3>
+            <p>Switches to the next available audio output device in the cycle. This is the default action if no flags are provided.</p>
+            <pre><code>sink-switch --next</code></pre>
 
-            <h3 id="toggle">sink-switch toggle</h3>
-            <p>Toggles between your two most recently used devices (Primary and Secondary).</p>
-            <pre><code>sink-switch toggle</code></pre>
+            <h3 id="previous">--previous</h3>
+            <p>Switches to the previous audio output device in the cycle.</p>
+            <pre><code>sink-switch --previous</code></pre>
 
-            <h3 id="list">sink-switch list</h3>
-            <p>Lists all detected audio sinks on your system with their index and name.</p>
-            <pre><code>sink-switch list</code></pre>
+            <h3 id="gui">--gui</h3>
+            <p>Launches the modern GTK4 / Libadwaita dashboard for visual configuration and switching.</p>
+            <pre><code>sink-switch --gui</code></pre>
 
             <h2 id="advanced-options">Advanced Options</h2>
             <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
@@ -102,12 +102,20 @@
                     <th style="text-align: left; padding: 0.5rem;">Description</th>
                 </tr>
                 <tr style="border-bottom: 1px solid var(--surface-low);">
-                    <td style="padding: 0.5rem;"><code>--quiet</code></td>
+                    <td style="padding: 0.5rem;"><code>--no-notify</code></td>
                     <td style="padding: 0.5rem;">Suppress desktop notifications.</td>
                 </tr>
                 <tr style="border-bottom: 1px solid var(--surface-low);">
-                    <td style="padding: 0.5rem;"><code>--set [ID]</code></td>
-                    <td style="padding: 0.5rem;">Directly switch to a specific sink ID.</td>
+                    <td style="padding: 0.5rem;"><code>--list</code></td>
+                    <td style="padding: 0.5rem;">Lists all currently available audio sinks.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--surface-low);">
+                    <td style="padding: 0.5rem;"><code>--set [NAME]</code></td>
+                    <td style="padding: 0.5rem;">Directly switch to a specific sink by its full name.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--surface-low);">
+                    <td style="padding: 0.5rem;"><code>--current</code></td>
+                    <td style="padding: 0.5rem;">Display the name of the current default sink.</td>
                 </tr>
             </table>
         </main>

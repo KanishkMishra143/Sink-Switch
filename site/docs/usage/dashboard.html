@@ -79,30 +79,27 @@
         <main class="docs-content">
             <span class="badge">Usage</span>
             <h1>Using Dashboard</h1>
-            <p>The Sink-Switch dashboard provides a visual way to manage your audio devices without touching the terminal.</p>
+            <p>Sink-Switch provides a modern visual dashboard on both Linux (GTK4/Libadwaita) and Windows to manage your audio devices.</p>
 
             <h2 id="interface-overview">Interface Overview</h2>
             <div class="halo-effect" style="margin: 2rem 0;">
-                <img src="../../assets/sink_switch_gui.png" alt="Dashboard UI" style="border-radius: var(--radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <img src="../../assets/linux_gui.png" alt="GTK4 Dashboard UI" style="border-radius: var(--radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
             </div>
 
-            <h3 id="device-list">Device List</h3>
-            <p>All connected audio outputs are listed in the main panel. The active device is highlighted with a primary color border.</p>
+            <h3 id="device-sections">Device Sections</h3>
+            <p>On Linux, devices are automatically categorized into <strong>Primary Audio Devices</strong> (like internal speakers and Bluetooth) and <strong>HDMI & External Audio</strong> for easier navigation.</p>
 
             <h3 id="switching-devices">Switching Devices</h3>
-            <p>Simply click on any device card to make it the default system output. Sink-Switch will automatically move all active audio streams (Spotify, Browser, Discord) to that device.</p>
+            <p>Simply double-click on any device row or select it and click "Switch to Selected" to make it the default system output. Sink-Switch moves all active audio streams automatically.</p>
 
-            <h3 id="volume-control">Volume Control</h3>
-            <p>Each device card has a dedicated volume slider. These sliders update in real-time and are remembered by the system even when the device is disconnected and reconnected.</p>
+            <h3 id="cycle-configuration">Cycle Configuration</h3>
+            <p>Use the checkboxes on the left of each row to include or exclude devices from your hotkey toggle loop. Click "Save Configuration" to persist these changes.</p>
 
-            <h2 id="system-tray">System Tray</h2>
-            <p>On both Linux and Windows, Sink-Switch lives in your system tray. Right-click the icon to:</p>
-            <ul>
-                <li>Quick switch between Primary/Secondary devices.</li>
-                <li>Open full Dashboard.</li>
-                <li>Refresh device list.</li>
-                <li>Exit application.</li>
-            </ul>
+            <h2 id="notifications">Notifications</h2>
+            <p>Every time you switch devices, Sink-Switch sends a native system notification with the device name and type, ensuring you always know where your audio is going.</p>
+            <div class="halo-effect" style="margin: 2rem 0;">
+                <img src="../../assets/linux_switched_to_internal_audio.png" alt="Linux Notification" style="border-radius: var(--radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            </div>
         </main>
 
         <aside class="docs-navigator">
