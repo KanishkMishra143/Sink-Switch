@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Using Dashboard - Sink-Switch Docs</title>
+    <title>Using Dashboard - Sink Switch Docs</title>
     <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg" class="favicon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +22,8 @@
         <div class="container nav-container">
             <div class="logo">
                 <a href="../../index.html" class="logo">
-                    <img src="../../assets/logo.svg" alt="Sink-Switch Logo" class="logo-img">
-                    <span class="logo-text">Docs</span>
+                    <img src="../../assets/logo.svg" alt="Sink Switch Logo" class="logo-img">
+                    <span class="logo-text">Sink Switch</span>
                 </a>
             </div>
             <div class="docs-search-container">
@@ -79,9 +79,9 @@
         <main class="docs-content">
             <span class="badge">Usage</span>
             <h1>Using Dashboard</h1>
-            <p>Sink-Switch provides a modern visual dashboard on both Linux (GTK4/Libadwaita) and Windows to manage your audio devices.</p>
+            <p>Sink Switch provides a modern visual dashboard on both Linux (GTK4/Libadwaita) and Windows to manage your audio devices.</p>
 
-            <h2 id="interface-overview">Interface Overview</h2>
+            <h2 id="linux-dashboard">Linux (GTK4)</h2>
             <div class="halo-effect" style="margin: 2rem 0;">
                 <img src="../../assets/linux_gui.png" alt="GTK4 Dashboard UI" style="border-radius: var(--radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
             </div>
@@ -90,13 +90,27 @@
             <p>On Linux, devices are automatically categorized into <strong>Primary Audio Devices</strong> (like internal speakers and Bluetooth) and <strong>HDMI & External Audio</strong> for easier navigation.</p>
 
             <h3 id="switching-devices">Switching Devices</h3>
-            <p>Simply double-click on any device row or select it and click "Switch to Selected" to make it the default system output. Sink-Switch moves all active audio streams automatically.</p>
+            <p>Simply double-click on any device row or select it and click "Switch to Selected" to make it the default system output. Sink Switch moves all active audio streams automatically.</p>
 
             <h3 id="cycle-configuration">Cycle Configuration</h3>
             <p>Use the checkboxes on the left of each row to include or exclude devices from your hotkey toggle loop. Click "Save Configuration" to persist these changes.</p>
 
+            <h2 id="windows-dashboard">Windows (Native)</h2>
+            <p>The Windows version features a lightweight, native GUI built with Go, designed to feel right at home on Windows 10 and 11.</p>
+            
+            <div class="halo-effect" style="margin: 2rem 0;">
+                <img src="../../assets/sink_switch_gui.png" alt="Windows Dashboard UI" style="border-radius: var(--radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            </div>
+
+            <h3 id="windows-configuration">Configuration</h3>
+            <p>Easily configure which devices are included in your switching cycle and set up your preferred hotkeys through the settings interface.</p>
+            
+            <div class="halo-effect" style="margin: 2rem 0;">
+                <img src="../../assets/sink_switch_configuration.png" alt="Windows Configuration UI" style="border-radius: var(--radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            </div>
+
             <h2 id="notifications">Notifications</h2>
-            <p>Every time you switch devices, Sink-Switch sends a native system notification with the device name and type, ensuring you always know where your audio is going.</p>
+            <p>Every time you switch devices, Sink Switch sends a native system notification with the device name and type, ensuring you always know where your audio is going.</p>
             <div class="halo-effect" style="margin: 2rem 0;">
                 <img src="../../assets/linux_switched_to_internal_audio.png" alt="Linux Notification" style="border-radius: var(--radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
             </div>
@@ -107,6 +121,38 @@
             <ul class="navigator-list" id="navigator-list"></ul>
         </aside>
     </div>
+
+    <footer class="docs-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <img src="../../assets/logo.svg" alt="Sink Switch Logo" class="logo-img">
+                        <span class="logo-text">Sink Switch</span>
+                    </div>
+                    <p>Instant audio switching for power users.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Product</h4>
+                        <a href="../../index.html#features">Features</a>
+                        <a href="../../index.html#how-it-works">Workflow</a>
+                        <a href="https://github.com/KanishkMishra143/Sink-Switch">Releases</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Resources</h4>
+                        <a href="../getting-started/index.html">Docs</a>
+                        <a href="https://github.com/KanishkMishra143/Sink-Switch/issues">Support</a>
+                        <a href="https://github.com/KanishkMishra143/Sink-Switch/blob/master/LICENSE">License</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Sink Switch. MIT License.</p>
+                <p>Built with ❤️ by Kanishk Mishra</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../../script.js"></script>
     <script src="../docs-script.js"></script>

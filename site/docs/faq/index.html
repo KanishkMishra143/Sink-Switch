@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ - Sink-Switch Docs</title>
+    <title>FAQ - Sink Switch Docs</title>
     <link rel="icon" type="image/png" href="assets/logo.svg" class="favicon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +22,8 @@
         <div class="container nav-container">
             <div class="logo">
                 <a href="../../index.html" class="logo">
-                    <img src="../../assets/logo.svg" alt="Sink-Switch Logo" class="logo-img">
-                    <span class="logo-text">Docs</span>
+                    <img src="../../assets/logo.svg" alt="Sink Switch Logo" class="logo-img">
+                    <span class="logo-text">Sink Switch</span>
                 </a>
             </div>
             <div class="docs-search-container">
@@ -81,13 +81,13 @@
         <main class="docs-content">
             <span class="badge">Resources</span>
             <h1>FAQ</h1>
-            <p>Common questions and troubleshooting tips for Sink-Switch.</p>
+            <p>Common questions and troubleshooting tips for Sink Switch.</p>
 
             <h2 id="does-not-switch">Audio switches, but current app doesn't follow?</h2>
-            <p>On some older PulseAudio setups, active streams don't follow the default sink automatically. Sink-Switch tries to force this, but ensure <strong>"Move active streams"</strong> is enabled in your configuration.</p>
+            <p>On some older PulseAudio setups, active streams don't follow the default sink automatically. Sink Switch tries to force this, but ensure <strong>"Move active streams"</strong> is enabled in your configuration.</p>
 
             <h2 id="pipewire-support">Does it support PipeWire?</h2>
-            <p>Yes! Sink-Switch is fully compatible with PipeWire. It uses <code>pactl</code> which PipeWire's pulse emulation layer handles perfectly.</p>
+            <p>Yes! Sink Switch is fully compatible with PipeWire. It uses <code>pactl</code> which PipeWire's pulse emulation layer handles perfectly.</p>
 
             <h2 id="latency">Is there any latency?</h2>
             <p>The switch itself is near-instant (sub-50ms). Any delay you hear is typically the application (like Chrome or Spotify) buffering as it moves to the new device.</p>
@@ -104,6 +104,38 @@
             <ul class="navigator-list" id="navigator-list"></ul>
         </aside>
     </div>
+
+    <footer class="docs-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <img src="../../assets/logo.svg" alt="Sink Switch Logo" class="logo-img">
+                        <span class="logo-text">Sink Switch</span>
+                    </div>
+                    <p>Instant audio switching for power users.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Product</h4>
+                        <a href="../../index.html#features">Features</a>
+                        <a href="../../index.html#how-it-works">Workflow</a>
+                        <a href="https://github.com/KanishkMishra143/Sink-Switch">Releases</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Resources</h4>
+                        <a href="../getting-started/index.html">Docs</a>
+                        <a href="https://github.com/KanishkMishra143/Sink-Switch/issues">Support</a>
+                        <a href="https://github.com/KanishkMishra143/Sink-Switch/blob/master/LICENSE">License</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Sink Switch. MIT License.</p>
+                <p>Built with ❤️ by Kanishk Mishra</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../../script.js"></script>
     <script src="../docs-script.js"></script>

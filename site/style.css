@@ -295,18 +295,25 @@ header {
     position: relative;
 }
 
+.halo-effect {
+    position: relative;
+    display: inline-block; /* Ensure it wraps around the image */
+    width: 100%;
+}
+
 .halo-effect::after {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, var(--primary) 0%, transparent 65%);
-    filter: blur(40px);
-    opacity: 0.25;
+    width: 120%; /* Slightly larger than the image for a halo effect */
+    height: 120%;
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+    filter: blur(50px);
+    opacity: 0.2;
     z-index: -1;
+    pointer-events: none;
 }
 
 /* Problem Section */

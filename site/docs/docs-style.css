@@ -57,10 +57,25 @@
 /* Sidebar */
 .docs-sidebar {
     position: sticky;
-    top: calc(var(--header-height) + var(--space-lg));
-    height: calc(100vh - var(--header-height) - 100px);
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
     overflow-y: auto;
-    padding-right: var(--space-md);
+    padding: var(--space-lg) var(--space-md) var(--space-xl) 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-high) transparent;
+}
+
+.docs-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.docs-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.docs-sidebar::-webkit-scrollbar-thumb {
+    background-color: var(--surface-high);
+    border-radius: 20px;
 }
 
 .sidebar-nav h4 {
@@ -307,8 +322,69 @@ code {
     .docs-container { grid-template-columns: var(--sidebar-width) 1fr; }
 }
 
+/* Footer */
+.docs-footer {
+    border-top: 1px solid var(--surface-high);
+    background: var(--surface-low);
+    padding: var(--space-xl) 0 var(--space-lg);
+    margin-top: auto;
+    width: 100%;
+}
+
+.docs-footer .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-xl);
+}
+
+.docs-footer .footer-brand p {
+    color: var(--on-surface-muted);
+    margin-top: 1rem;
+    max-width: 300px;
+}
+
+.docs-footer .footer-links {
+    display: flex;
+    gap: var(--space-xl);
+}
+
+.docs-footer h4 {
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.docs-footer .link-group a {
+    display: block;
+    color: var(--on-surface-muted);
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+    transition: var(--transition);
+}
+
+.docs-footer .link-group a:hover {
+    color: var(--primary);
+}
+
+.docs-footer .footer-bottom {
+    border-top: 1px solid var(--surface-high);
+    padding-top: var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+    color: var(--on-surface-muted);
+    font-size: 0.875rem;
+}
+
 @media (max-width: 768px) {
-    .docs-container { grid-template-columns: 1fr; }
-    .docs-sidebar { display: none; }
-    .docs-search-container { width: 200px; }
+    .docs-footer .footer-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .docs-footer .footer-links {
+        flex-direction: column;
+        gap: var(--space-lg);
+    }
 }
