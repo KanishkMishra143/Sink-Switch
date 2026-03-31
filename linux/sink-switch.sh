@@ -25,6 +25,11 @@ while [[ $# -gt 0 ]]; do
             SHOW_CURRENT=true
             shift
             ;;
+        --gui)
+            # Launch GUI relative to script location
+            python3 "$(dirname "$(readlink -f "$0")")/sink-switch-gui.py" &
+            exit 0
+            ;;
         --set)
             shift
             if [[ -n "$1" ]]; then
@@ -45,7 +50,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             echo "Unknown option: $1"
-            echo "Usage: $0 [--no-notify] [--list] [--current] [--set <sink-name>] [--next|--previous]"
+            echo "Usage: $0 [--no-notify] [--list] [--current] [--set <sink-name>] [--next|--previous] [--gui]"
             exit 1
             ;;
     esac
@@ -57,6 +62,31 @@ mapfile -t sinks < <(pactl list short sinks | awk '{print $2}')
     echo "No sinks available."
     exit 1
 }
+
+# ------------- LOAD CONFIG (Optional Filter) -------------
+CONFIG_FILE="$HOME/.config/sink-switch/config.json"
+if [[ -f "$CONFIG_FILE" ]]; then
+    # Parse configured devices using python (already a dependency for GUI)
+    mapfile -t config_sinks < <(python3 -c "import json, sys; d=json.load(open('$CONFIG_FILE')).get('devices', []); [print(s) for s in d if s]" 2>/dev/null)
+    
+    if [[ ${#config_sinks[@]} -gt 0 ]]; then
+        # Filter to only currently available sinks from the config list
+        filtered_sinks=()
+        for cs in "${config_sinks[@]}"; do
+            for as in "${sinks[@]}"; do
+                if [[ "$cs" == "$as" ]]; then
+                    filtered_sinks+=("$as")
+                    break
+                fi
+            done
+        done
+        
+        # Only override if we have valid sinks from config
+        if [[ ${#filtered_sinks[@]} -gt 0 ]]; then
+            sinks=("${filtered_sinks[@]}")
+        fi
+    fi
+fi
 
 # ------------- HANDLE [--list] -------------
 if $SHOW_LIST; then

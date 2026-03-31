@@ -51,25 +51,32 @@ To switch devices with a keyboard shortcut, you need to execute `sink-switch.exe
 
 ## Linux Version
 
-The Linux version is a robust Bash script wrapper for `pactl` (PulseAudio/PipeWire), offering a dependency-free experience on most modern distributions.
+The Linux version is a robust Bash script wrapper for `pactl` (PulseAudio/PipeWire) with a modern GTK 4 dashboard for configuration.
 
 ### Features
 
-- **Zero Dependencies:** Relies only on standard system tools (`pactl`, `notify-send`) commonly found in distributions using PulseAudio or PipeWire.
+- **Zero Dependencies:** Relies on standard system tools (`pactl`, `notify-send`) and Python 3 with GTK 4 and Libadwaita.
+- **Dashboard UI:** A modern GTK 4 / Libadwaita interface to select exactly which devices you want to include in the toggle cycle.
 - **Desktop Notifications:** Displays a system notification with the name of the new active device upon switching.
-- **Smart Filtering:** Can be configured to ignore specific output types (like HDMI) to keep your cycle list clean.
+- **Smart Filtering:** Supports custom device lists via a shared `config.json` between the CLI and GUI.
 
-### Installation
+### Installation & Usage
 
-1.  **Download:** Save the `sink-switch.sh` script to a directory in your path (e.g., `~/.local/bin/`).
+1.  **Download:** Save the `sink-switch.sh` and `sink-switch-gui.py` scripts to a directory in your path (e.g., `~/.local/bin/`).
     ```bash
     mkdir -p ~/.local/bin
     cp linux/sink-switch.sh ~/.local/bin/sink-switch
+    cp linux/sink-switch-gui.py ~/.local/bin/sink-switch-gui.py
     ```
-2.  **Permissions:** Make the script executable.
+2.  **Permissions:** Make the scripts executable.
     ```bash
-    chmod +x ~/.local/bin/sink-switch
+    chmod +x ~/.local/bin/sink-switch ~/.local/bin/sink-switch-gui.py
     ```
+3.  **Configuration:** Run the dashboard to select which devices you want to include in your toggle loop:
+    ```bash
+    sink-switch --gui
+    ```
+    Select your preferred devices and click **Save Config**.
 
 ### Setting up Hotkeys (Linux)
 
