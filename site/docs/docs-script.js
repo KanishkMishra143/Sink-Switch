@@ -1,5 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. "On This Page" Navigator ---
+    // --- 1. Mobile Menu Logic ---
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const docsSidebar = document.querySelector('.docs-sidebar');
+    const sidebarOverlay = document.createElement('div');
+    sidebarOverlay.className = 'sidebar-overlay';
+    document.body.appendChild(sidebarOverlay);
+
+    function toggleSidebar() {
+        docsSidebar.classList.toggle('active');
+        sidebarOverlay.classList.toggle('active');
+        document.body.style.overflow = docsSidebar.classList.contains('active') ? 'hidden' : '';
+    }
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+    }
+
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+
+    // Close sidebar when clicking a link on mobile
+    const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
+            }
+        });
+    });
+
+    // Close on Escape
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && docsSidebar.classList.contains('active')) {
+            toggleSidebar();
+        }
+    });
+
+    // --- 2. "On This Page" Navigator ---
     const docsContent = document.querySelector('.docs-content');
     const navigatorList = document.getElementById('navigator-list');
     
@@ -25,28 +61,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Highlight active heading on scroll
-        window.addEventListener('scroll', () => {
-            let current = '';
-            headings.forEach(heading => {
-                const sectionTop = heading.offsetTop;
-                if (window.pageYOffset >= sectionTop - 120) {
-                    current = heading.getAttribute('id');
-                }
-            });
+        const observerOptions = {
+            root: null,
+            rootMargin: '-100px 0px -70% 0px',
+            threshold: 0
+        };
 
-            document.querySelectorAll('.navigator-list a').forEach(a => {
-                if (a.getAttribute('href') === `#${current}`) {
-                    a.style.color = 'var(--primary)';
-                    a.style.fontWeight = '700';
-                } else {
-                    a.style.color = '';
-                    a.style.fontWeight = '';
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    document.querySelectorAll('.navigator-list a').forEach(a => {
+                        if (a.getAttribute('href') === `#${id}`) {
+                            a.style.color = 'var(--primary)';
+                            a.style.fontWeight = '700';
+                        } else {
+                            a.style.color = '';
+                            a.style.fontWeight = '';
+                        }
+                    });
                 }
             });
-        });
+        }, observerOptions);
+
+        headings.forEach(heading => observer.observe(heading));
     }
 
-    // --- 2. Enhanced Global Docs Search (Algolia Style) ---
+    // --- 3. Enhanced Global Docs Search (Algolia Style) ---
     const searchTrigger = document.getElementById('docs-search');
     const searchModal = document.getElementById('search-modal');
     
@@ -108,32 +149,53 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             openSearch();
         }
-        if (e.key === 'Escape' && searchModal.style.display === 'block') {
+        if (e.key === 'Escape' && searchModal && searchModal.style.display === 'block') {
             closeSearch();
         }
     });
 
-    searchModal.addEventListener('click', (e) => {
-        if (e.target === searchModal) closeSearch();
-    });
+    if (searchModal) {
+        searchModal.addEventListener('click', (e) => {
+            if (e.target === searchModal) closeSearch();
+        });
+    }
 
     let selectedIndex = -1;
 
-    modalInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        if (query.length === 0) {
-            modalResults.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--on-surface-muted);">Type to start searching...</div>';
-            return;
-        }
+    if (modalInput) {
+        modalInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length === 0) {
+                modalResults.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--on-surface-muted);">Type to start searching...</div>';
+                return;
+            }
 
-        const filtered = searchIndex.filter(item => 
-            item.title.toLowerCase().includes(query) || 
-            item.content.toLowerCase().includes(query) ||
-            item.category.toLowerCase().includes(query)
-        );
+            const filtered = searchIndex.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.content.toLowerCase().includes(query) ||
+                item.category.toLowerCase().includes(query)
+            );
 
-        renderResults(filtered);
-    });
+            renderResults(filtered);
+        });
+
+        modalInput.addEventListener('keydown', (e) => {
+            const items = modalResults.querySelectorAll('.search-result-item');
+            if (items.length === 0) return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                selectedIndex = (selectedIndex + 1) % items.length;
+                updateSelection(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+                updateSelection(items);
+            } else if (e.key === 'Enter' && selectedIndex >= 0) {
+                items[selectedIndex].click();
+            }
+        });
+    }
 
     function renderResults(results) {
         modalResults.innerHTML = '';
@@ -171,23 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         selectedIndex = -1;
     }
-
-    modalInput.addEventListener('keydown', (e) => {
-        const items = modalResults.querySelectorAll('.search-result-item');
-        if (items.length === 0) return;
-
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            selectedIndex = (selectedIndex + 1) % items.length;
-            updateSelection(items);
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            selectedIndex = (selectedIndex - 1 + items.length) % items.length;
-            updateSelection(items);
-        } else if (e.key === 'Enter' && selectedIndex >= 0) {
-            items[selectedIndex].click();
-        }
-    });
 
     function updateSelection(items) {
         items.forEach((item, i) => {
