@@ -1,109 +1,135 @@
 # Sink Switch
 
 <p align="center">
-  <img src="logo.svg" width="200" alt="Sink Switch Logo">
+  <img src="logo.svg" width="150" alt="Sink Switch logo">
 </p>
 
-**Sink Switch** is a cross-platform utility designed to instantly toggle your default audio playback device with a global hotkey. It prioritizes performance, reliability, and ease of use.
+<p align="center">
+  <strong>Instant audio output switching for Linux and Windows.</strong>
+  <br>
+  Cycle between your preferred devices with a hotkey, a CLI command, or a native GUI.
+</p>
 
----
+<p align="center">
+  <a href="https://github.com/KanishkMishra143/Sink-Switch/releases">Releases</a>
+  ·
+  <a href="site/docs/getting-started/index.html">Docs</a>
+  ·
+  <a href="#linux">Linux</a>
+  ·
+  <a href="#windows">Windows</a>
+</p>
 
-## Windows Version
+## Screenshots
 
-The Windows version is a native Go application that interacts directly with Windows Core Audio APIs for low-latency switching.
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="site/assets/linux_gui.png" alt="Sink Switch Linux GTK dashboard" width="100%">
+      <br>
+      <strong>Linux GTK4 / Libadwaita dashboard</strong>
+    </td>
+    <td align="center" width="50%">
+      <img src="site/assets/go_version.png" alt="Sink Switch Windows native Go dashboard" width="100%">
+      <br>
+      <strong>Windows native Go dashboard</strong>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <img src="site/assets/sink_switch_configuration.png" alt="Sink Switch Windows device configuration view" width="78%">
+      <br>
+      <strong>Device selection and cycle configuration</strong>
+    </td>
+  </tr>
+</table>
 
-### Features
+## Overview
 
-- **Instant Switching:** Direct API calls ensure zero lag when toggling devices.
-- **Dashboard UI:** A clean interface to select exactly which devices you want to include in the cycle loop.
-- **Smart Memory:** Intelligently handles virtual audio mixers (like FxSound, Voicemeeter, or SteelSeries Sonar) by remembering the last active hardware device associated with them.
-- **Global Hotkey Support:** Designed to work seamlessly with automation tools like AutoHotkey.
+Sink Switch is a cross-platform utility for changing your default audio output without digging through system settings. It is built around a simple workflow:
 
-### Installation & Usage
+- Pick the devices you care about.
+- Bind a hotkey or run one command.
+- Switch instantly and move active playback to the new output.
 
-1.  **Download:** Get the latest `sink-switch.exe` from the [Releases](https://github.com/KanishkMishra143/sink-switch-windows/releases) page.
-2.  **Configuration:** Run `sink-switch.exe` (double-click) to open the dashboard. Select the audio devices you wish to cycle through and close the window. A `config.json` file will be created.
+The repo currently contains:
 
-### Setting up Hotkeys (Windows)
+- A Linux implementation built with Bash, `pactl`, desktop notifications, and a GTK4/Libadwaita dashboard.
+- A Windows implementation built in Go with a native dashboard and CLI flags for cycling or listing devices.
+- A legacy Windows AutoHotkey/PowerShell prototype kept in `windows/ahk-prototype/`.
+- The project website and docs source in `site/`.
 
-To switch devices with a keyboard shortcut, you need to execute `sink-switch.exe` with the `-cycle` flag. The recommended method is using **AutoHotkey**.
+## Features
 
-1.  **Install AutoHotkey:** Download and install it from [autohotkey.com](https://www.autohotkey.com/).
-2.  **Create Script:**
-    *   Create a new text file named `keybindings.ahk` in the same folder as `sink-switch.exe`.
-    *   Paste the following code into the file:
-        ```autohotkey
-        #NoEnv
-        SendMode Input
-        SetWorkingDir, %A_ScriptDir%
+- Fast device switching from the keyboard or terminal.
+- Native dashboards on both Linux and Windows.
+- Configurable cycle list so only selected devices are included.
+- Automatic movement of active playback streams on Linux.
+- Friendly hotkey setup for GNOME, KDE, AutoHotkey, and other automation tools.
+- Persistent config storage so the cycle order survives restarts.
 
-        ; Alt + Mute to cycle audio devices
-        !Volume_Mute::
-            Run, "sink-switch.exe" -cycle, %A_ScriptDir%, Hide
-        return
-        ```
-3.  **Run:** Double-click `keybindings.ahk` to activate the shortcut. Press `Alt + Mute` (or your defined key) to test.
-4.  **Auto-Start:** To have this run automatically on boot:
-    *   Press `Win + R`, type `shell:startup`, and press Enter.
-    *   Create a shortcut to your `keybindings.ahk` file and place it in this folder.
+## Linux
 
----
+The Linux version lives in [`linux/`](linux/) and is centered around [`linux/sink-switch.sh`](linux/sink-switch.sh) plus the GTK dashboard in [`linux/sink-switch-gui.py`](linux/sink-switch-gui.py).
 
-## Linux Version
+### Requirements
 
-The Linux version is a robust Bash script wrapper for `pactl` (PulseAudio/PipeWire) with a modern GTK 4 dashboard for configuration.
+- `pactl` available through PulseAudio or PipeWire's PulseAudio compatibility layer
+- `notify-send`
+- `python3`
+- GTK 4
+- Libadwaita
+- PyGObject
 
-### Features
+### Install
 
-- **Zero Dependencies:** Relies on standard system tools (`pactl`, `notify-send`) and Python 3 with GTK 4 and Libadwaita.
-- **Dashboard UI:** A modern GTK 4 / Libadwaita interface to select exactly which devices you want to include in the toggle cycle.
-- **Desktop Notifications:** Displays a system notification with the name of the new active device upon switching.
-- **Smart Filtering:** Supports custom device lists via a shared `config.json` between the CLI and GUI.
+Install both files into the same directory so `--gui` can launch the dashboard correctly:
 
-### Installation & Usage
+```bash
+mkdir -p ~/.local/bin
+install -m 755 linux/sink-switch.sh ~/.local/bin/sink-switch
+install -m 755 linux/sink-switch-gui.py ~/.local/bin/sink-switch-gui.py
+```
 
-1.  **Download:** Save the `sink-switch.sh` and `sink-switch-gui.py` scripts to a directory in your path (e.g., `~/.local/bin/`).
-    ```bash
-    mkdir -p ~/.local/bin
-    cp linux/sink-switch.sh ~/.local/bin/sink-switch
-    cp linux/sink-switch-gui.py ~/.local/bin/sink-switch-gui.py
-    ```
-2.  **Permissions:** Make the scripts executable.
-    ```bash
-    chmod +x ~/.local/bin/sink-switch ~/.local/bin/sink-switch-gui.py
-    ```
-3.  **Configuration:** Run the dashboard to select which devices you want to include in your toggle loop:
-    ```bash
-    sink-switch --gui
-    ```
-    Select your preferred devices and click **Save Config**.
+### Usage
 
-### Setting up Hotkeys (Linux)
+```bash
+sink-switch                 # cycle to the next configured sink
+sink-switch --previous      # cycle backwards
+sink-switch --list          # list available sinks
+sink-switch --current       # show the current default sink
+sink-switch --set <sink>    # switch directly to a specific sink
+sink-switch --gui           # open the GTK dashboard
+```
 
-You can bind the script to a global keyboard shortcut using your desktop environment's settings.
+### Config
 
-#### GNOME
-1.  Open **Settings** > **Keyboard** > **View and Customize Shortcuts**.
-2.  Scroll down to **Custom Shortcuts**.
-3.  Click **Add Shortcut**.
-    *   **Name:** Sink Switch
-    *   **Command:** `sink-switch` (or `/full/path/to/sink-switch` if not in PATH)
-    *   **Shortcut:** Set your desired key combination (e.g., `Super + A`).
+Linux stores its config at:
 
-#### KDE Plasma
-1.  Open **System Settings** > **Shortcuts** > **Custom Shortcuts**.
-2.  Right-click in the list > **New** > **Global Shortcut** > **Command/URL**.
-3.  Name it "Sink Switch".
-4.  **Trigger:** Set your key combination.
-5.  **Action:** Enter `sink-switch` (or `/full/path/to/sink-switch`).
+```text
+~/.config/sink-switch/config.json
+```
 
----
+The dashboard lets you:
 
-## Development
+- Switch immediately to a selected sink.
+- Choose which sinks are part of the cycle loop.
+- Save the current cycle list for CLI and hotkey usage.
 
-### Windows (Go)
+### Hotkeys
 
-Prerequisites: Go 1.25+
+Bind `sink-switch` or `sink-switch --previous` in your desktop environment's global shortcut settings.
+
+- GNOME: `Settings` -> `Keyboard` -> custom shortcut
+- KDE Plasma: `System Settings` -> `Shortcuts` -> custom shortcut
+
+## Windows
+
+The recommended Windows version lives in [`windows/go-version/`](windows/go-version/). It uses the Windows Core Audio APIs directly and provides both a dashboard and CLI flags.
+
+### Quick Start
+
+You can either build it locally or download a packaged release from the [Releases](https://github.com/KanishkMishra143/Sink-Switch/releases) page.
 
 ```powershell
 cd windows/go-version
@@ -111,17 +137,75 @@ go mod download
 go build -ldflags "-H windowsgui" -o sink-switch.exe
 ```
 
-### Linux (Bash)
+### Usage
 
-No build process is required. The script can be run directly from the source.
-
-```bash
-cd linux
-./sink-switch.sh --help
+```powershell
+sink-switch.exe         # open the dashboard
+sink-switch.exe -list   # list active playback devices
+sink-switch.exe -cycle  # cycle through configured devices
 ```
 
----
+You can also pass device names after `-cycle` to create an ad-hoc cycle list:
+
+```powershell
+sink-switch.exe -cycle "Speakers" "Headphones"
+```
+
+### Config
+
+Windows stores its config at:
+
+```text
+%APPDATA%\SinkSwitch\config.json
+```
+
+From the dashboard you can:
+
+- See the currently active device.
+- Choose which devices are included in the cycle list.
+- Save the cycle list used by `sink-switch.exe -cycle`.
+- Double-click or select a device to switch immediately.
+
+### Hotkeys
+
+The repo includes an AutoHotkey example in [`windows/go-version/keybindings.ahk`](windows/go-version/keybindings.ahk).
+
+```autohotkey
+!Volume_Mute::
+    Run, "%A_ScriptDir%\sink-switch.exe" -cycle, %A_ScriptDir%, Hide
+return
+```
+
+## Legacy Windows Prototype
+
+The older script-based implementation is still available in [`windows/ahk-prototype/`](windows/ahk-prototype/). It is useful if you want a more hackable PowerShell + AutoHotkey workflow, but the Go version is the primary Windows implementation now.
+
+## Project Structure
+
+```text
+linux/                  Linux CLI script and GTK dashboard
+windows/go-version/     Native Windows implementation in Go
+windows/ahk-prototype/  Legacy script-based Windows prototype
+site/                   Website and documentation source
+```
+
+## Development
+
+### Linux
+
+```bash
+./linux/sink-switch.sh --list
+python3 ./linux/sink-switch-gui.py
+```
+
+### Windows
+
+```powershell
+cd windows/go-version
+go mod download
+go build -ldflags "-H windowsgui" -o sink-switch.exe
+```
 
 ## License
 
-MIT License. Free to use and modify.
+MIT. See [`LICENSE`](LICENSE).
