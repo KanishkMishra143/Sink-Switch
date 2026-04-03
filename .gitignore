@@ -4,3 +4,6 @@ CONTEXT.md
 windows/config.json
 windows/sink-switch.exe
 tmp/
+.codex
+linux/packaging/
+*.txt
