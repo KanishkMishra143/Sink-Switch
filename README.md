@@ -191,8 +191,9 @@ site/                   Website and documentation source
 
 ## Future Plans
 ### Linux
-[] In linux, the Line Out and Line Out (Headphones) are not differentiated, even though they are, one maybe a AUX wire(plugged in motherboard 3.5mm jack), one maybe a wired headphone(plugged in front panel 3.5mm jack)!
-<img src="site/assets/line-out.png" alt="Line Out discrepency" width="100%">
+In linux, the Line Out and Line Out (Headphones) are not differentiated, even though they are, one maybe a AUX wire(plugged in motherboard 3.5mm jack), one maybe a wired headphone(plugged in front panel 3.5mm jack)!
+<br>
+<img src="site/assets/line-out.png" alt="Line Out discrepency" height="25%" width="25%" align="center">
 
 
 ## Development
