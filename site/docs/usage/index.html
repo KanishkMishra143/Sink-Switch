@@ -20,6 +20,9 @@
 <body class="docs-body">
     <header>
         <div class="container nav-container">
+            <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open Menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
             <div class="logo">
                 <a href="../../index.html" class="logo">
                     <img src="../../assets/logo.svg" alt="Sink Switch Logo" class="logo-img">
@@ -97,28 +100,34 @@
             <pre><code>sink-switch --gui</code></pre>
 
             <h2 id="advanced-options">Advanced Options</h2>
-            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-                <tr style="border-bottom: 1px solid var(--surface-high);">
-                    <th style="text-align: left; padding: 0.5rem;">Flag</th>
-                    <th style="text-align: left; padding: 0.5rem;">Description</th>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--surface-low);">
-                    <td style="padding: 0.5rem;"><code>--no-notify</code></td>
-                    <td style="padding: 0.5rem;">Suppress desktop notifications.</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--surface-low);">
-                    <td style="padding: 0.5rem;"><code>--list</code></td>
-                    <td style="padding: 0.5rem;">Lists all currently available audio sinks.</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--surface-low);">
-                    <td style="padding: 0.5rem;"><code>--set [NAME]</code></td>
-                    <td style="padding: 0.5rem;">Directly switch to a specific sink by its full name.</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--surface-low);">
-                    <td style="padding: 0.5rem;"><code>--current</code></td>
-                    <td style="padding: 0.5rem;">Display the name of the current default sink.</td>
-                </tr>
-            </table>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Flag</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>--no-notify</code></td>
+                            <td>Suppress desktop notifications.</td>
+                        </tr>
+                        <tr>
+                            <td><code>--list</code></td>
+                            <td>Lists all currently available audio sinks.</td>
+                        </tr>
+                        <tr>
+                            <td><code>--set [NAME]</code></td>
+                            <td>Directly switch to a specific sink by its full name.</td>
+                        </tr>
+                        <tr>
+                            <td><code>--current</code></td>
+                            <td>Display the name of the current default sink.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </main>
 
         <aside class="docs-navigator">

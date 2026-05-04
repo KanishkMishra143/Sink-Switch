@@ -11,14 +11,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mobile Menu Toggle
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const desktopNav = document.querySelector('.desktop-nav');
+    const mobileOverlay = document.createElement('div');
+    mobileOverlay.className = 'mobile-overlay';
+    document.body.appendChild(mobileOverlay);
+
+    function toggleMenu() {
+        const isActive = mobileMenuToggle.classList.toggle('active');
+        desktopNav.classList.toggle('active');
+        mobileOverlay.classList.toggle('active');
+        document.body.style.overflow = isActive ? 'hidden' : '';
+    }
 
     if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', () => {
-            mobileMenuToggle.classList.toggle('active');
-            // For now, we'll just log or handle it simply as the desktop nav is hidden on mobile
-            // In a real implementation, this would show a mobile-specific overlay
-        });
+        mobileMenuToggle.addEventListener('click', toggleMenu);
     }
+
+    mobileOverlay.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking a link
+    desktopNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (desktopNav.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    });
+
+    // Close on Escape
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && desktopNav.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
 
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
