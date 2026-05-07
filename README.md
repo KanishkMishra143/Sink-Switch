@@ -191,7 +191,10 @@ site/                   Website and documentation source
 
 ## Future Plans
 ### Linux
-In linux, the Line Out and Line Out (Headphones) are not differentiated, even though they are, one maybe a AUX wire(plugged in motherboard 3.5mm jack), one maybe a wired headphone(plugged in front panel 3.5mm jack)!
+- In linux, the Line Out and Line Out (Headphones) are not differentiated, even though they are, one maybe a AUX wire(plugged in motherboard 3.5mm jack), one maybe a wired headphone(plugged in front panel 3.5mm jack)!
+- The way the Internal Audio behaviour works by default is, there are two types of devices it detects - Headphones and Speaker, and when sink-switch cycles between them, it switches to last used device via Internal Audio whether a speaker or a headphone.
+- This is a problem, because if I want to switch between the Internal Audio Headphones and Speaker, it is not possible.
+- UNLESS, maybe specifically running the command `--set <sink-name>` (*untested theory*)
 <br>
 <img src="site/assets/line-out.png" alt="Line Out discrepency" height="25%" width="25%" align="center">
 
